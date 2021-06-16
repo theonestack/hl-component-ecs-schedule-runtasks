@@ -1,0 +1,21 @@
+
+test_metadata:
+  type: config
+  name: multipletasks
+  description: multiple task config test
+
+
+run_tasks:
+  tasks1:
+    task_definition:
+      tasks1:
+        image: myimage1
+        tag_param: Version
+    schedule: rate(1 hour)
+  tasks2:
+    task_definition:
+      tasks1:
+        image: myimage2
+        tag_param: Version
+    schedule: rate(2 hour)
+    

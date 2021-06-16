@@ -1,0 +1,15 @@
+
+test_metadata:
+  type: config
+  name: singletask
+  description: single task config test
+
+
+run_tasks:
+  singletask:
+    task_definition:
+      singletask:
+        image: myimage
+        tag_param: Version
+    schedule: rate(1 hour)
+    
