@@ -5,7 +5,10 @@ scheduler_iam_policies:
     condition:
       ArnLike:
         ecs:cluster: 
-          Fn::Sub: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster/${EcsCluster}
+          Fn:Join: 
+            - /
+            - - Fn::Sub: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster
+              - Ref: EcsCluster
   ecs-pass-role:
     action:
       - iam:PassRole

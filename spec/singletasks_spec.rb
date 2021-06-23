@@ -33,8 +33,11 @@ describe 'should fail without a task_definition' do
                 "Condition"=>
                  {"ArnLike"=>
                    {"ecs:cluster"=>
-                     {"Fn::Sub"=>
-                       "arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster/${EcsCluster}"}}},
+                    {"Fn:Join"=>
+                      ["/",
+                        [{"Fn::Sub"=>
+                          "arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster"},
+                        {"Ref"=>"EcsCluster"}]]}}},
                 "Effect"=>"Allow",
                 "Resource"=>["*"],
                 "Sid"=>"ecsruntask"}]},
