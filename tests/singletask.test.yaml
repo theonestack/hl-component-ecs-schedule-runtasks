@@ -4,12 +4,20 @@ test_metadata:
   name: singletask
   description: single task config test
 
+test_parameters:
+  mytask: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/mytask
+  mytaskSecurityGroup: sg-123456789
+  SubnetIds: subnet-abc,subnet-xyz
+
 
 run_tasks:
   singletask:
-    task_definition:
-      singletask:
-        image: myimage
-        tag_param: Version
+    task_definition: mytask
+    command:
+      - echo
+      - hello
+      - worrld
+    env_vars:
+      - foo: bar
     schedule: rate(1 hour)
     

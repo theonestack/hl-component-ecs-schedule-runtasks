@@ -10,45 +10,50 @@ describe 'should fail without a task_definition' do
 
   let(:template) { YAML.load_file("#{File.dirname(__FILE__)}/../out/tests/singletask/ecs-schedule-runtasks.compiled.yaml") }
 
-  context 'Resource Task' do
-    let(:properties) { template["Resources"]["Task"]["Properties"] }
+  context 'Resource Event Bridge IAM Role' do
+    let(:properties) { template["Resources"]["EventBridgeInvokeRole"]["Properties"] }
 
-    it 'has property RequiresCompatibilities ' do
-      expect(properties["RequiresCompatibilities"]).to eq(['FARGATE'])
+    it 'has a event bridge assume role policy' do
+      expect(properties["AssumeRolePolicyDocument"]).to eq({
+        "Statement"=>[
+          {
+            "Action"=>["sts:AssumeRole"],
+            "Effect"=>"Allow",
+            "Principal"=>{"Service"=>["events.amazonaws.com"]
+          }
+        }]
+      })
     end
 
-    it 'has property NetworkMode ' do
-      expect(properties["NetworkMode"]).to eq('awsvpc')
-    end
-
-    it 'has property CPU ' do
-      expect(properties["Cpu"]).to eq(256)
-    end
-
-    it 'has property Memory ' do
-      expect(properties["Memory"]).to eq(512)
-    end
-
-  end
-
-  context 'Resource StateMachine' do
-    let(:properties) { template["Resources"]["StateMachine"]["Properties"] }
-
-    it 'has property StateMachineName' do
-      expect(properties["StateMachineName"]).to eq({"Fn::Sub"=>"${EnvironmentName}-singletask-RunTask"})
-    end
-
-    it 'has property RoleArn' do
-      expect(properties["RoleArn"]).to eq({"Fn::GetAtt" => ["StepFunctionRole", "Arn"]})
-    end
-
-    it 'has property DefinitionString' do
-      expect(properties["DefinitionString"]).not_to be_nil
+    it 'has Policies to allow running tasks limited to a given cluster' do
+      expect(properties["Policies"]).to eq([
+        {"PolicyDocument"=>
+            {"Statement"=>
+              [{"Action"=>["ecs:RunTask"],
+                "Condition"=>
+                 {"ArnLike"=>
+                   {"ecs:cluster"=>
+                     {"Fn::Sub"=>
+                       "arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster/${EcsCluster}"}}},
+                "Effect"=>"Allow",
+                "Resource"=>["*"],
+                "Sid"=>"ecsruntask"}]},
+           "PolicyName"=>"ecs-runtask"},
+          {"PolicyDocument"=>
+            {"Statement"=>
+              [{"Action"=>["iam:PassRole"],
+                "Condition"=>
+                 {"StringLike"=>{"iam:PassedToService"=>"ecs-tasks.amazonaws.com"}},
+                "Effect"=>"Allow",
+                "Resource"=>["*"],
+                "Sid"=>"ecspassrole"}]},
+           "PolicyName"=>"ecs-pass-role"}        
+      ])
     end
   end
 
   context 'Resource Schedule' do
-    let(:properties) { template["Resources"]["Schedule"]["Properties"] }
+    let(:properties) { template["Resources"]["singletaskSchedule"]["Properties"] }
 
     it 'has property Name' do
       expect(properties["Name"]).to eq({"Fn::Sub"=>"${EnvironmentName}-singletask-schedule"})
@@ -63,10 +68,21 @@ describe 'should fail without a task_definition' do
     end
 
     it 'has property Targets' do
-      expect(properties["Targets"]).to eq([{
-        "Arn"=>{"Ref"=>"StateMachine"},
-        "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}
-      }])
+      expect(properties["Targets"]).to eq([
+        {"Arn"=>{"Ref"=>"EcsCluster"},
+          "EcsParameters"=>
+            {"LaunchType"=>"FARGATE",
+             "NetworkConfiguration"=>
+              {"AwsVpcConfiguration"=>
+                {"AssignPublicIp"=>"DISABLED",
+                 "SecurityGroups"=>[{"Ref"=>"mytaskSecurityGroup"}],
+                 "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
+             "TaskCount"=>1,
+             "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
+           "Input"=>
+            "{\"enableExecuteCommand\":true,\"containerOverrides\":{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}}",
+           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
+      ])
     end
 
   end

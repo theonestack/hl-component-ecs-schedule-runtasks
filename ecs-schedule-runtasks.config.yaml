@@ -1,2 +1,14 @@
-defaults: {}
-run_tasks: []
+scheduler_iam_policies:
+  ecs-runtask:
+    action:
+      - ecs:RunTask
+    condition:
+      ArnLike:
+        ecs:cluster: 
+          Fn::Sub: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster/${EcsCluster}
+  ecs-pass-role:
+    action:
+      - iam:PassRole
+    condition:
+      StringLike:
+        iam:PassedToService: "ecs-tasks.amazonaws.com"

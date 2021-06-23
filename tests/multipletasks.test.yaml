@@ -5,17 +5,24 @@ test_metadata:
   description: multiple task config test
 
 
+test_parameters:
+  task1: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/task1
+  task1SecurityGroup: sg-123456789
+  task2: arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task/task2
+  task2SecurityGroup: sg-123456789
+  SubnetIds: subnet-abc,subnet-xyz
+
+
 run_tasks:
-  tasks1:
-    task_definition:
-      tasks1:
-        image: myimage1
-        tag_param: Version
+  task1:
+    task_definition: task1
     schedule: rate(1 hour)
-  tasks2:
-    task_definition:
-      tasks1:
-        image: myimage2
-        tag_param: Version
-    schedule: rate(2 hour)
+  task2:
+    task_definition: task2
+    command:
+      - echo
+      - foo
+      - bar
+    schedule: cron(15 10 ? * 6L 2019-2022)
+
     
