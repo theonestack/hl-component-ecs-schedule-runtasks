@@ -72,7 +72,7 @@ describe 'should fail without a task_definition' do
 
     it 'has property Targets' do
       expect(properties["Targets"]).to eq([
-        {"Arn"=>{"Ref"=>"EcsCluster"},
+        {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
@@ -82,6 +82,7 @@ describe 'should fail without a task_definition' do
                  "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
+          "Id"=>"singletask-c2luZ2xldGFzaw",
            "Input"=>
             "{\"enableExecuteCommand\":true,\"containerOverrides\":{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}

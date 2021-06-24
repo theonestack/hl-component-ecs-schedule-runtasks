@@ -9,7 +9,7 @@ CfhighlanderTemplate do
     ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
     ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
 
-    ComponentParam 'EcsCluster'
+    ComponentParam 'EcsClusterArn'
   end
 
 end

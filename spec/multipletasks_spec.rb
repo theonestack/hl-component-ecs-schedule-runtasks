@@ -28,7 +28,7 @@ describe 'should fail without a task_definition' do
 
     it 'has property Targets' do
       expect(properties["Targets"]).to eq([
-        {"Arn"=>{"Ref"=>"EcsCluster"},
+        {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
@@ -38,6 +38,7 @@ describe 'should fail without a task_definition' do
                  "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task1"}},
+          "Id"=>"task1-dGFzazE",
            "Input"=>
             "{\"enableExecuteCommand\":true,\"containerOverrides\":{\"name\":\"task1\"}}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
@@ -63,7 +64,7 @@ describe 'should fail without a task_definition' do
 
     it 'has property Targets' do
       expect(properties["Targets"]).to eq([
-        {"Arn"=>{"Ref"=>"EcsCluster"},
+        {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
@@ -73,6 +74,7 @@ describe 'should fail without a task_definition' do
                  "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task2"}},
+          "Id"=>"task2-dGFzazI",
            "Input"=>
             "{\"enableExecuteCommand\":true,\"containerOverrides\":{\"name\":\"task2\",\"command\":\"[\\\"echo\\\", \\\"foo\\\", \\\"bar\\\"]\"}}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
