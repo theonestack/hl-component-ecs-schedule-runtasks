@@ -30,14 +30,7 @@ describe 'should fail without a task_definition' do
         {"PolicyDocument"=>
             {"Statement"=>
               [{"Action"=>["ecs:RunTask"],
-                "Condition"=>
-                 {"ArnLike"=>
-                   {"ecs:cluster"=>
-                    {"Fn::Join"=>
-                      ["/",
-                        [{"Fn::Sub"=>
-                          "arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:cluster"},
-                        {"Ref"=>"EcsCluster"}]]}}},
+                "Condition"=>{"ArnLike"=>{"ecs:cluster"=>[{"Ref"=>"EcsClusterArn"}]}},
                 "Effect"=>"Allow",
                 "Resource"=>["*"],
                 "Sid"=>"ecsruntask"}]},
