@@ -35,6 +35,7 @@ CloudFormation do
           Description FnSub("{EnvironmentName} #{name} schedule")
           ScheduleExpression schedule
           Targets [{
+            Id: "#{name}-#{name.hash}",
             Arn: Ref(:EcsCluster),
             RoleArn: FnGetAtt('EventBridgeInvokeRole', 'Arn'),
             EcsParameters: {
