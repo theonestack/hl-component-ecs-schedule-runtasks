@@ -63,6 +63,10 @@ describe 'should fail without a task_definition' do
       expect(properties["ScheduleExpression"]).to eq('rate(1 hour)')
     end
 
+    it 'has property State' do
+      expect(properties["State"]).to eq("Ref"=>"SchedulesState")
+    end
+
     it 'has property Targets' do
       expect(properties["Targets"]).to eq([
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
@@ -77,7 +81,7 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
           "Id"=>"singletask-c2luZ2xldGFzaw",
            "Input"=>
-            "{\"enableExecuteCommand\":true,\"containerOverrides\":{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}}",
+            "{\"containerOverrides\":{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end

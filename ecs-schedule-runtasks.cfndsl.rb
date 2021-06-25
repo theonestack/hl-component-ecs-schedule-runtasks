@@ -33,6 +33,7 @@ CloudFormation do
           Name FnSub("${EnvironmentName}-#{name}-schedule")
           Description FnSub("{EnvironmentName} #{name} schedule")
           ScheduleExpression schedule
+          State Ref(:SchedulesState)
           Targets [{
             Id: "#{name}-#{Base64.encode64(name).gsub(/=\n|=/,'')}",
             Arn: Ref(:EcsClusterArn),

@@ -10,6 +10,8 @@ CfhighlanderTemplate do
     ComponentParam 'SubnetIds', type: 'CommaDelimitedList'
 
     ComponentParam 'EcsClusterArn'
+
+    ComponentParam 'SchedulesState', 'ENABLED', allowedValues: ['ENABLED', 'DISABLED']
   end
 
 end
