@@ -12,6 +12,7 @@ test_parameters:
 
 run_tasks:
   singletask:
+    container: singletask
     task_definition: mytask
     command:
       - echo

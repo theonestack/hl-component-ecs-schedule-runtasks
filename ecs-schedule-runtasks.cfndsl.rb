@@ -21,7 +21,7 @@ CloudFormation do
       task_name = name.gsub("-","").gsub("_","")
   
       container_overrides = {}
-      container_overrides.merge! name: "#{name}"
+      container_overrides.merge! name: task.has_key?('container') ? task['container'] : "#{task['task_definition']}"
       container_overrides.merge! command: "#{task['command']}" if task.has_key?('command')
       container_overrides.merge! environment: "#{task['env_vars']}" if task.has_key?('env_vars')
       container_input = {
