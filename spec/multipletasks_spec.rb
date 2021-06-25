@@ -19,7 +19,7 @@ describe 'should fail without a task_definition' do
     end
 
     it 'has property Description' do
-      expect(properties["Description"]).to eq({"Fn::Sub"=>"{EnvironmentName} task1 schedule"})
+      expect(properties["Description"]).to eq({"Fn::Sub"=>"${EnvironmentName} task1 schedule"})
     end
 
     it 'has property ScheduleExpression' do
@@ -39,8 +39,7 @@ describe 'should fail without a task_definition' do
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task1"}},
           "Id"=>"task1-dGFzazE",
-           "Input"=>
-            "{\"containerOverrides\":[{\"name\":\"task1\"}]}",
+          "Input"=>{"containerOverrides"=>[{"name"=>"task1"}]},
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end
@@ -55,7 +54,7 @@ describe 'should fail without a task_definition' do
     end
 
     it 'has property Description' do
-      expect(properties["Description"]).to eq({"Fn::Sub"=>"{EnvironmentName} task2 schedule"})
+      expect(properties["Description"]).to eq({"Fn::Sub"=>"${EnvironmentName} task2 schedule"})
     end
 
     it 'has property ScheduleExpression' do
@@ -75,8 +74,9 @@ describe 'should fail without a task_definition' do
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task2"}},
           "Id"=>"task2-dGFzazI",
-           "Input"=>
-            "{\"containerOverrides\":[{\"name\":\"task2\",\"command\":\"[\\\"echo\\\", \\\"foo\\\", \\\"bar\\\"]\"}]}",
+          "Input"=>
+            {"containerOverrides"=>
+              [{"command"=>"[\"echo\", \"foo\", \"bar\"]", "name"=>"task2"}]},
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end

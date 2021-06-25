@@ -56,7 +56,7 @@ describe 'should fail without a task_definition' do
     end
 
     it 'has property Description' do
-      expect(properties["Description"]).to eq({"Fn::Sub"=>"{EnvironmentName} singletask schedule"})
+      expect(properties["Description"]).to eq({"Fn::Sub"=>"${EnvironmentName} singletask schedule"})
     end
 
     it 'has property ScheduleExpression' do
@@ -64,7 +64,7 @@ describe 'should fail without a task_definition' do
     end
 
     it 'has property State' do
-      expect(properties["State"]).to eq("Ref"=>"SchedulesState")
+      expect(properties["State"]).to eq("Ref"=>"State")
     end
 
     it 'has property Targets' do
@@ -81,7 +81,10 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
           "Id"=>"singletask-c2luZ2xldGFzaw",
            "Input"=>
-            "{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}]}",
+              {"containerOverrides"=>
+                 [{"command"=>"[\"echo\", \"hello\", \"worrld\"]",
+                  "environment"=>"[{\"foo\"=>\"bar\"}]",
+                  "name"=>"singletask"}]},
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end

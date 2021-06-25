@@ -11,7 +11,7 @@ CfhighlanderTemplate do
 
     ComponentParam 'EcsClusterArn'
 
-    ComponentParam 'SchedulesState', 'ENABLED', allowedValues: ['ENABLED', 'DISABLED']
+    ComponentParam 'State', 'ENABLED', allowedValues: ['ENABLED', 'DISABLED']
   end
 
 end

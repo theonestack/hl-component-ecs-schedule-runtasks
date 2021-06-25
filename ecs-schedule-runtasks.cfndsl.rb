@@ -31,9 +31,9 @@ CloudFormation do
       unless schedule.nil?
         Events_Rule("#{task_name}Schedule") do
           Name FnSub("${EnvironmentName}-#{name}-schedule")
-          Description FnSub("{EnvironmentName} #{name} schedule")
+          Description FnSub("${EnvironmentName} #{name} schedule")
           ScheduleExpression schedule
-          State Ref(:SchedulesState)
+          State Ref(:State)
           Targets [{
             Id: "#{name}-#{Base64.encode64(name).gsub(/=\n|=/,'')}",
             Arn: Ref(:EcsClusterArn),
@@ -50,7 +50,7 @@ CloudFormation do
                 }
               }
             },
-            Input: container_input.to_json()
+            Input: container_input
           }]
         end
       end
