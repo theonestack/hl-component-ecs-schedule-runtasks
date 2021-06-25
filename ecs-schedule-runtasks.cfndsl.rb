@@ -25,7 +25,7 @@ CloudFormation do
       container_overrides.merge! command: "#{task['command']}" if task.has_key?('command')
       container_overrides.merge! environment: "#{task['env_vars']}" if task.has_key?('env_vars')
       container_input = {
-        containerOverrides: container_overrides
+        containerOverrides: [container_overrides]
       }
   
       unless schedule.nil?

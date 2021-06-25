@@ -81,7 +81,7 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
           "Id"=>"singletask-c2luZ2xldGFzaw",
            "Input"=>
-            "{\"containerOverrides\":{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}}",
+            "{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":\"[\\\"echo\\\", \\\"hello\\\", \\\"worrld\\\"]\",\"environment\":\"[{\\\"foo\\\"=>\\\"bar\\\"}]\"}]}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end

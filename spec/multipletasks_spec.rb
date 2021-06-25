@@ -40,7 +40,7 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"task1"}},
           "Id"=>"task1-dGFzazE",
            "Input"=>
-            "{\"containerOverrides\":{\"name\":\"task1\"}}",
+            "{\"containerOverrides\":[{\"name\":\"task1\"}]}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end
@@ -76,7 +76,7 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"task2"}},
           "Id"=>"task2-dGFzazI",
            "Input"=>
-            "{\"containerOverrides\":{\"name\":\"task2\",\"command\":\"[\\\"echo\\\", \\\"foo\\\", \\\"bar\\\"]\"}}",
+            "{\"containerOverrides\":[{\"name\":\"task2\",\"command\":\"[\\\"echo\\\", \\\"foo\\\", \\\"bar\\\"]\"}]}",
            "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end
