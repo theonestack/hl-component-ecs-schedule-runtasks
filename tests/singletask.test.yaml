@@ -16,8 +16,7 @@ run_tasks:
     task_definition: mytask
     command:
       - echo
-      - hello
-      - worrld
+      - hello world
     env_vars:
       - foo: bar
     schedule: rate(1 hour)

@@ -19,15 +19,14 @@ CloudFormation do
     run_tasks.each do |name, task|
       schedule = task['schedule']
       task_name = name.gsub("-","").gsub("_","")
-  
       container_overrides = {}
-      container_overrides.merge! name: task.has_key?('container') ? task['container'] : "#{task['task_definition']}"
-      container_overrides.merge! command: "#{task['command']}" if task.has_key?('command')
-      container_overrides.merge! environment: "#{task['env_vars']}" if task.has_key?('env_vars')
+      container_overrides[:name] = task.has_key?('container') ? task['container'] : "#{task['task_definition']}"
+      container_overrides[:command] = task['command'] if task.has_key?('command')
+      container_overrides[:environment] = task['env_vars'] if task.has_key?('env_vars')
       container_input = {
         containerOverrides: [container_overrides]
       }
-  
+
       unless schedule.nil?
         Events_Rule("#{task_name}Schedule") do
           Name FnSub("${EnvironmentName}-#{name}-schedule")
@@ -50,7 +49,7 @@ CloudFormation do
                 }
               }
             },
-            Input: container_input
+            Input: container_input.to_json()
           }]
         end
       end
