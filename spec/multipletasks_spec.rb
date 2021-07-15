@@ -38,7 +38,7 @@ describe 'should fail without a task_definition' do
                  "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task1"}},
-          "Id"=>"task1-dGFzazE",
+          "Id"=>"task1",
           "Input"=>"{\"containerOverrides\":[{\"name\":\"task1\"}]}",
           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
@@ -73,7 +73,7 @@ describe 'should fail without a task_definition' do
                  "Subnets"=>{"Fn::Split"=>[",", {"Ref"=>"SubnetIds"}]}}},
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task2"}},
-          "Id"=>"task2-dGFzazI",
+          "Id"=>"task2",
           "Input"=>"{\"containerOverrides\":[{\"name\":\"task2\",\"command\":[\"echo\",\"foo\",\"bar\"]}]}",
           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
