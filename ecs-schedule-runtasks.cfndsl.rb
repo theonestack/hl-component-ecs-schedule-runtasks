@@ -34,7 +34,7 @@ CloudFormation do
           ScheduleExpression schedule
           State Ref(:State)
           Targets [{
-            Id: "#{name}-#{Base64.encode64(name).gsub(/=\n|=/,'')}",
+            Id: name,
             Arn: Ref(:EcsClusterArn),
             RoleArn: FnGetAtt('EventBridgeInvokeRole', 'Arn'),
             EcsParameters: {
