@@ -49,7 +49,7 @@ CloudFormation do
                 }
               }
             },
-            Input: container_input.to_json()
+            Input: FnSub(container_input.to_json())
           }]
         end
       end
