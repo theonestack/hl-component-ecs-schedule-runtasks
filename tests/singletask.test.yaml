@@ -18,6 +18,6 @@ run_tasks:
       - echo
       - hello world
     env_vars:
-      - foo: bar
+      foo: bar
     schedule: rate(1 hour)
     
