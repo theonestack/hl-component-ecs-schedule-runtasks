@@ -43,7 +43,7 @@ CloudFormation do
     container_input = {
       containerOverrides: [container_overrides]
     }
-
+    enable_execute_command = external_parameters.fetch(:enable_execute_command, false)
     unless schedule.nil?
       Events_Rule("#{task_name}Schedule") do
         Name FnSub("${EnvironmentName}-#{name}-schedule")
@@ -55,6 +55,7 @@ CloudFormation do
           Arn: Ref(:EcsClusterArn),
           RoleArn: FnGetAtt('EventBridgeInvokeRole', 'Arn'),
           EcsParameters: {
+            EnableExecuteCommand: enable_execute_command,
             TaskDefinitionArn: Ref("#{task['task_definition']}"),
             TaskCount: 1,
             LaunchType: 'FARGATE',

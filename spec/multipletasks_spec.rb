@@ -30,7 +30,8 @@ describe 'should fail without a task_definition' do
       expect(properties["Targets"]).to eq([
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
-            {"LaunchType"=>"FARGATE",
+            {"EnableExecuteCommand"=>false,
+             "LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",
@@ -65,7 +66,8 @@ describe 'should fail without a task_definition' do
       expect(properties["Targets"]).to eq([
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
-            {"LaunchType"=>"FARGATE",
+            {"EnableExecuteCommand"=>false,
+             "LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",

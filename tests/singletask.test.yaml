@@ -9,6 +9,7 @@ test_parameters:
   mytaskSecurityGroup: sg-123456789
   SubnetIds: subnet-abc,subnet-xyz
 
+enable_execute_command: true
 
 run_tasks:
   singletask:

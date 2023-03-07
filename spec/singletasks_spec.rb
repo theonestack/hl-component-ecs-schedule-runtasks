@@ -71,7 +71,8 @@ describe 'should fail without a task_definition' do
       expect(properties["Targets"]).to eq([
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
-            {"LaunchType"=>"FARGATE",
+            {"EnableExecuteCommand"=>true,
+             "LaunchType"=>"FARGATE",
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",
@@ -81,7 +82,7 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
           "Id"=>"singletask",
           
-          "Input"=>{"Fn::Sub"=>"{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":[\"echo\",\"hello world\"],\"environment\":[{\"foo\":\"bar\"}]}]}"},
+          "Input"=>{"Fn::Sub"=>"{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":[\"echo\",\"hello world\"],\"environment\":[{\"name\":\"foo\",\"value\":\"bar\"}]}]}"},
           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end
