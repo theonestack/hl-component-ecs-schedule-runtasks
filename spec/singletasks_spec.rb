@@ -28,7 +28,8 @@ describe 'should fail without a task_definition' do
     it 'has Policies to allow running tasks limited to a given cluster' do
       expect(properties["Policies"]).to eq([
         {"PolicyDocument"=>
-            {"Statement"=>
+            {"Version"=>"2012-10-17",
+             "Statement"=>
               [{"Action"=>["ecs:RunTask"],
                 "Condition"=>{"ArnLike"=>{"ecs:cluster"=>[{"Ref"=>"EcsClusterArn"}]}},
                 "Effect"=>"Allow",
@@ -36,13 +37,14 @@ describe 'should fail without a task_definition' do
                 "Sid"=>"ecsruntask"}]},
            "PolicyName"=>"ecs-runtask"},
           {"PolicyDocument"=>
-            {"Statement"=>
+            {"Version"=>"2012-10-17",
+             "Statement"=>
               [{"Action"=>["iam:PassRole"],
                 "Condition"=>
                  {"StringLike"=>{"iam:PassedToService"=>"ecs-tasks.amazonaws.com"}},
                 "Effect"=>"Allow",
                 "Resource"=>["*"],
-                "Sid"=>"ecspassrole"}]},
+                "Sid"=>"ecspassrole",}]},
            "PolicyName"=>"ecs-pass-role"}        
       ])
     end
@@ -72,6 +74,7 @@ describe 'should fail without a task_definition' do
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
+            "EnableExecuteCommand"=>true,
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",
@@ -81,7 +84,9 @@ describe 'should fail without a task_definition' do
              "TaskDefinitionArn"=>{"Ref"=>"mytask"}},
           "Id"=>"singletask",
           
-          "Input"=>{"Fn::Sub"=>"{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":[\"echo\",\"hello world\"],\"environment\":[{\"foo\":\"bar\"}]}]}"},
+          "Input"=>{"Fn::Sub"=>
+            "{\"containerOverrides\":[{\"name\":\"singletask\",\"command\":[\"echo\",\"hello world\"],\"environment\":[{\"name\":\"foo\",\"value\":\"bar\"}]}]}"
+          },
           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end

@@ -31,6 +31,7 @@ describe 'should fail without a task_definition' do
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
+             "EnableExecuteCommand"=>true,
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",
@@ -66,6 +67,7 @@ describe 'should fail without a task_definition' do
         {"Arn"=>{"Ref"=>"EcsClusterArn"},
           "EcsParameters"=>
             {"LaunchType"=>"FARGATE",
+            "EnableExecuteCommand"=>true,
              "NetworkConfiguration"=>
               {"AwsVpcConfiguration"=>
                 {"AssignPublicIp"=>"DISABLED",
@@ -74,7 +76,9 @@ describe 'should fail without a task_definition' do
              "TaskCount"=>1,
              "TaskDefinitionArn"=>{"Ref"=>"task2"}},
           "Id"=>"task2",
-          "Input"=>{"Fn::Sub"=>"{\"containerOverrides\":[{\"name\":\"task2\",\"command\":[\"echo\",\"foo\",\"bar\"]}]}"},
+          "Input"=>{"Fn::Sub"=>
+            "{\"containerOverrides\":[{\"name\":\"task2\",\"command\":[\"echo\",\"foo\",\"bar\"]}]}"
+          },
           "RoleArn"=>{"Fn::GetAtt"=>["EventBridgeInvokeRole", "Arn"]}}
       ])
     end
