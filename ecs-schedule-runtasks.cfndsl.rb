@@ -56,6 +56,7 @@ CloudFormation do
           RoleArn: FnGetAtt('EventBridgeInvokeRole', 'Arn'),
           EcsParameters: {
             TaskDefinitionArn: Ref("#{task['task_definition']}"),
+            EnableExecuteCommand: true,
             TaskCount: 1,
             LaunchType: 'FARGATE',
             NetworkConfiguration: {
